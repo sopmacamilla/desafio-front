@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CadastroServico } from '../model/CadastroServico';
+import { CadastroServicoService } from '../service/cadastro-servico.service';
 
 @Component({
   selector: 'app-cadastro-servico',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CadastroServicoComponent implements OnInit {
 
-  constructor() { }
+  cadServico: CadastroServico = new CadastroServico(); 
+  listaServicos: CadastroServico[];
 
-  ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private listagemServicos: CadastroServicoService
+
+  ) { }
+
+  ngOnInit() {
+    window.scroll(0,0)
+  }
+
+  cadastrarServico() {
+    this.listagemServicos.postServico(this.cadServico).subscribe((resp: CadastroServico) => {
+      this.cadServico = resp
+      alert('Serviço cadastrado com sucesso!')
+    })
   }
 
 }
